@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container">
+
+
+
+<!-- ============================ COMPONENT 2 ================================= -->
+<div class="row">
+<main class="col-md-8">
+
+<article class="card mb-4">
+<div class="card-body">
+	<h4 class="card-title mb-4">Review cart</h4>
+	<div class="row">
+		{% for item in cart_items %}
+		<div class="col-md-12">
+			<figure class="itemside  mb-4">
+				<div class="aside"><img src="{{item.product.images.url}}" class="border img-sm"></div>
+				<figcaption class="info">
+					<p>{{item.product.product_name}} </p>
+					<p>Category : {{item.product.category.category_name}} </p>
+					<span class="text-muted">{{item.quantity}}x{{item.product.price}} = ${{item.sub_total}} </span>
+				</figcaption>
+			</figure>
+		</div> <!-- col.// -->
+		{% endfor %}
+	</div> <!-- row.// -->
+</div> <!-- card-body.// -->
+</article> <!-- card.// -->
+
+
+<article class="card mb-4">
+<div class="card">
+  <div class="card-body">
+    <h4 class="card-title mb-4">Billing Address</h4>
+    {% if user.is_authenticated %}
+    <form action="{% url 'place_order' %}" method='POST' >
+		{% csrf_token %}
+    <div class="form-row">
+      <div class="col form-group">
+        <label for="">First Name</label>
+        <input type="text" class="form-control" placeholder="first_name" name="first_name" value="{{ user.first_name }}" >
+      </div>
+      <div class="col form-group">
+        <label for="">last Name</label>
+        <input type="text" class="form-control" placeholder="last_name" name="last_name" value="{{ user.last_name }}" >
+      </div> <!-- form-group// -->
+    </div>
+    <div class="form-row">
+      <div class="col form-group">
+        <label for="">email</label>
+        <input type="text" class="form-control" placeholder="email" name="email" value="{{ user.email }}" >
+      </div> <!-- form-group// -->
+      <div class="col form-group">
+        <label for="">phone Number</label>
+        <input type="text" class="form-control" placeholder="phone_number" name="phone_number" value="{{ user.phone_number }}" >
+       </div> <!-- form-group// -->
+    </div>
+    <div class="form-row">
+      <div class="col form-group">
+        <label for="">address_line1 </label>
+        <input type="text" class="form-control" placeholder="address_line1" name="address_line1" value="{{ user.address_line1 }}" >
+      </div> <!-- form-group// -->
+    </div>
+    <div class="form-row">
+      <div class="col form-group">
+         <label for="">address_line2 </label>
+         <input type="text" class="form-control" placeholder="address_line2" name="address_line2" value="{{ user.address_line2 }}" >
+      </div> <!-- form-group// -->
+      <div class="col form-group">
+        <label for="">state </label>
+        <input type="text" class="form-control" placeholder="state" name="state" value="{{ user.state }}" >
+      </div> <!-- form-group// -->
+    </div>
+    <div class="form-row">
+      <div class="col form-group">
+        <label for="">city </label>
+        <input type="text" class="form-control" placeholder="city" name="city" value="{{ user.city }}" >
+      </div> <!-- form-group// -->
+      <div class="col form-group">
+        <label for="">country </label>
+        <input type="text" class="form-control" placeholder="country" name="country" value="{{ user.country }}" >
+      </div> <!-- form-group// -->
+    </div>
+    <div class="form-group">
+      <label for="">order_note </label>
+      <input type="text" class="form-control" placeholder="order_note" name="order_note" value="{{ user.order_note }}" >
+    </div> <!-- form-group// -->
+      
+      
+    {% else %}
+    <h4>Invalid user</h4>
+    {% endif %}
+  </div>
+</div> 
+</article>
+ <!-- card.// -->
+
+
+
+<!-- accordion end.// -->
+  
+		</main> <!-- col.// -->
+		<aside class="col-md-4">
+			<div class="card">
+		<div class="card-body">
+			<dl class="dlist-align">
+			  <dt>Total price:</dt>
+			  <dd class="text-right">${{total}}</dd>
+			</dl>
+			<dl class="dlist-align">
+			  <dt>Tax:</dt>
+			  <dd class="text-right"> ${{tax}}</dd>
+			</dl>
+			<dl class="dlist-align">
+			  <dt>Total:</dt>
+			  <dd class="text-right text-dark b"><strong>${{grand_total}}</strong></dd>
+			</dl>
+			<hr>
+			<p class="text-center mb-3">
+				<img src="{% static 'images/misc/payments.png'%}" height="26">
+			</p>
+      <button type="submit" class="btn btn-primary btn-block" > Place Order </button>
+		</div> <!-- card-body.// -->
+		</div> <!-- card.// -->
+		</aside> <!-- col.// -->
+  </form>
+	</div> <!-- row.// -->
+
+</div> <!-- container .//  -->
+{% endblock %}

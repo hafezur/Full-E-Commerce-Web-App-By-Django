@@ -1,0 +1,61 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <h1>recent order</h2>
+    {% if recent_order %}
+        <div class="order-history">
+            <h2>Order #{{ recent_order.order_number }}</h2>
+            <table class="table table-primary table-striped table-responsive">
+                <tr>
+                    <th>Order Date</th>
+                    <td>{{ recent_order.created_at }}</td>
+                </tr>
+                <tr>
+                    <th>Order Status</th>
+                    <td>{{recent_order.status }}</td>
+                </tr>
+                <tr>
+                    <th>Order Total</th>
+                    <td>${{ recent_order.order_total }}</td>
+                </tr>
+                <tr>
+                    <th>Name</th>
+                    <td>{{ recent_order.first_name}}</td>
+                </tr>
+                <tr>
+                    <th>Email</th>
+                    <td>{{ recent_order.email}}</td>
+                </tr>
+                <tr>
+                    <th>Phone Number</th>
+                    <td>{{ recent_order.phone}}</td>
+                </tr>
+                <tr>
+                    <th>Product List </th>
+                    <td>{{ recent_order.find_product_name }}</td>
+                </tr>
+                <tr>
+                    <th>State</th>
+                    <td>{{ recent_order.state }}</td>
+                </tr>
+                <tr>
+                    <th>City</th>
+                    <td>{{ recent_order.city }}</td>
+                </tr>
+                <tr>
+                    <th>Country</th>
+                    <td>{{ recent_order.country }}</td>
+                </tr>
+                <tr>
+                    <th>Order Notes</th>
+                    <td>{{ recent_order.order_note|default:"N/A" }}</td>
+                </tr>
+            </table>
+        <!-- Add more fields as necessary -->
+    {% else %}
+        <h1>No recent orders found.</h1>
+    {% endif %}
+</div>
+
+{% endblock%}

@@ -1,0 +1,158 @@
+{% extends 'base.html' %} 
+{% load static %} 
+{% block content %}
+
+<section class="section-content padding-y bg">
+  {{all_comment.avg_ratings}}
+  <div class="container">
+    <div class="card">
+      <div class="row no-gutters">
+        <aside class="col-md-6">
+          <article class="gallery-wrap">
+            <div class="img-big-wrap">
+              <a href="#"><img src="{{ single_product.images.url }}" /></a>
+            </div>
+            <!-- img-big-wrap.// -->
+          </article>
+          <!-- gallery-wrap .end// -->
+        </aside>
+        <main class="col-md-6 border-left">
+          <form action="{% url 'add_cart' single_product.id %}" method="POST">
+            {% csrf_token %}
+            <article class="content-body">
+              <h2 class="title">{{ single_product.product_name }}</h2>
+              <div class="rating-star">
+                <span>
+                  {% if average_rating < 1 %}
+                  <i class="fa fa-star" aria-hidden="true"></i>
+                  {% elif average_rating >= 1 and average_rating < 2 %}
+                  <i class="fa fa-star" aria-hidden="true" ></i>
+                  {% elif average_rating >= 2 and average_rating < 3 %}
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                  {% elif average_rating >= 3 and average_rating < 4 %}
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                  {% elif average_rating >= 4 and average_rating < 5 %}
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                  {% elif average_rating > 5  %}
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                    <i class="fa fa-star" aria-hidden="true"></i>
+                  {% endif %}
+                </span>
+              </div>
+              <div class="mb-3">
+                {% if single_product.have_dis > 0 %}
+                  <div class="price-wrap mt-2">
+                    <span class="price "><del>$ {{ single_product.price }}</del></span>
+                  </div>
+                  <div class="price-wrap mt-2">
+                    <span class="price">$ {{ single_product.discount_price }}</span>
+                  </div>
+                  {% else %}
+                  <div class="price-wrap mt-2">
+                    <span class="price">$ {{ single_product.price }}</span>
+                  </div>
+                  {% endif %}
+              </div>
+
+              <p>{{ single_product.description }}</p>
+
+              <hr />
+              <div class="row">
+                <div class="item-option-select">
+                  <h6>Choose Color</h6>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="item-option-select">
+                  <h6>Select Size</h6>
+
+                </div>
+              </div>
+              <hr />
+              {% if single_product.stock <= 0 %}
+              <h5 class="text-danger">Out of Stock</h5>
+              {% elif in_cart %}
+              <p>Item Already added to cart</p>
+                <a class="btn btn-warning" href="{% url 'cart'%}">
+                <span class="text">View Cart</span>
+                <i class="fas fa-shopping-cart"></i>
+                </a>
+              {% else %}
+              <button type="submit" class="btn btn-primary">
+                <span class="text">Add to Cart</span>
+                <i class="fas fa-shopping-cart"></i>
+              </button>
+                    {% if single_product.is_wish == True %}
+                    <button class="btn btn-warning" href="{% url 'add_to_wish_list' single_product.slug %}" disabled>
+                      <span class="text">All-ready add to wishList</span>
+                      <i class="bi bi-heart"></i>
+                    </button>
+                      {% else %}
+                         {% if user.is_authenticated %}
+                          <a class="btn btn-warning" href="{% url 'add_to_wish_list' single_product.slug %}">
+                          <span class="text">Add to WishList</span>
+                          <i class="bi bi-heart"></i>
+                          </a>
+                          {% else %}
+                          <button class="btn btn-warning" href="{% url 'add_to_wish_list' single_product.slug %}" disabled>
+                            <span class="text">add to wishList</span>
+                            <i class="bi bi-heart"></i>
+                          </button>
+                            <h6 class ="text-danger">For Getting WishList feature Login first!!!</h6>
+                          {% endif %}
+                     {% endif %}
+              {% endif %}
+            </article>
+            <!-- product-info-aside .// -->
+          </form>
+        </main>
+        <!-- col.// -->
+      </div>
+      <!-- row.// -->
+    </div>
+  </div>
+  <div class="section-content padding-y">
+    <div class="container">
+       {% for comment in all_comment %}
+          <div class ="bg-light rounded px-5 ">
+           {{comment.write_comment}}
+           <br>
+           <div>
+            {% if comment.user_photo %}
+            <a href="#"><img src="{{ comment.user_photo.url }}" class="rounded-circle" style="width:50px; height:50px"/></a>
+            {% endif %}
+            {{comment.user_name}}
+           </div>
+           <br>
+           {{comment.user_address}}
+           <br>
+           {{comment.comment_date}}
+          </div>
+           <br>
+       {% endfor %}
+    </div>
+    <div class="container">
+  
+      <p>Give your Feedback</p>
+      <form   method ="POST" >
+        {% csrf_token %}
+        
+          <div>
+            {{form}}
+            <button class="btn btn-primary" type="submit" value="submit"><i class="bi bi-box-arrow-in-right">submit</i></button>
+          </div>
+      </form>
+    </div>
+  </div>
+  </section>
+{% endblock %}

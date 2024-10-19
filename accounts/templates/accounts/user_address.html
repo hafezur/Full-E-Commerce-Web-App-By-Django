@@ -1,0 +1,36 @@
+{% extends 'base.html'%}
+{% block content %}
+
+<div class="container mt-5">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">User Address</h5>
+        </div>
+        {% if user.is_authenticated %}
+        <div class="card-body">
+                <form action="{% url 'manage_user_address' %}" method = 'POST'>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="address_line1" class="form-control" placeholder="address" name="address_line1" value="{{ Order.address_line1 }}" >
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <input type="state" class="form-control" placeholder="state" name="state" >
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <input type="city" class="form-control" placeholder="city" name="city" >
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <input type="country" class="form-control" placeholder="country" name="country" >
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary "> Update </button>
+                    </div> <!-- form-group// -->    
+                </form>
+        </div>
+        {% else %}
+            <h1>invaid user</h1>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock%}

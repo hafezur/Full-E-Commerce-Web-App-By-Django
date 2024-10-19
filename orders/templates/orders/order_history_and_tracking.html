@@ -1,0 +1,107 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<body>
+
+    <h1>Order History</h1>
+
+    <div class="order-history">
+        <h2>Order #{{ order.order_number }}</h2>
+        <table>
+            <tr>
+                <th>Order Date</th>
+                <td>{{ order.order_date }}</td>
+            </tr>
+            <tr>
+                <th>Order Status</th>
+                <td>{{ order.status }}</td>
+            </tr>
+            <tr>
+                <th>Order Total</th>
+                <td>${{ order.total }}</td>
+            </tr>
+            <tr>
+                <th>Shipping Address</th>
+                <td>{{ order.shipping_address }}</td>
+            </tr>
+            <tr>
+                <th>Billing Address</th>
+                <td>{{ order.billing_address }}</td>
+            </tr>
+            <tr>
+                <th>Payment Method</th>
+                <td>{{ order.payment_method }}</td>
+            </tr>
+            <tr>
+                <th>Order Notes</th>
+                <td>{{ order.notes|default:"N/A" }}</td>
+            </tr>
+        </table>
+
+        <h3>Items Purchased</h3>
+        <table>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+            {% for item in order.items %}
+            <tr>
+                <td>{{ item.product_name }}</td>
+                <td>{{ item.quantity }}</td>
+                <td>${{ item.price }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <a href="{% url 'download_invoice' order.id %}" class="button">Download Invoice</a>
+    </div>
+
+    <h1>Order Tracking</h1>
+
+    <div class="order-tracking">
+        <h2>Tracking Information for Order #{{ order.order_number }}</h2>
+        <table>
+            <tr>
+                <th>Tracking Number</th>
+                <td><a href="{{ tracking.tracking_link }}" target="_blank">{{ tracking.tracking_number }}</a></td>
+            </tr>
+            <tr>
+                <th>Carrier</th>
+                <td>{{ tracking.carrier }}</td>
+            </tr>
+            <tr>
+                <th>Tracking Link</th>
+                <td><a href="{{ tracking.tracking_link }}" target="_blank">Track Your Package</a></td>
+            </tr>
+            <tr>
+                <th>Shipping Method</th>
+                <td>{{ tracking.shipping_method }}</td>
+            </tr>
+            <tr>
+                <th>Estimated Delivery Date</th>
+                <td>{{ tracking.estimated_delivery_date }}</td>
+            </tr>
+            <tr>
+                <th>Actual Delivery Date</th>
+                <td>{{ tracking.actual_delivery_date|default:"N/A" }}</td>
+            </tr>
+            <tr>
+                <th>Delivery Status</th>
+                <td>{{ tracking.delivery_status }}</td>
+            </tr>
+            <tr>
+                <th>Shipping History</th>
+                <td>
+                    <ul>
+                        {% for event in tracking.shipping_history %}
+                        <li>{{ event.date }}: {{ event.description }}</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+</body>
+{% endblock %}

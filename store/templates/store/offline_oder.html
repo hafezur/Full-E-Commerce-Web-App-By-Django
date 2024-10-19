@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <!-- Personal Information Section -->
+ <section class="section-content padding-y d-flex container">
+    <aside class="col-md-3">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Make Offline Order</h5>
+            </div>
+            {% if user.is_authenticated %}
+            <div class="card-body bg-primary">
+                    <form action=" " method = 'POST'>
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <h5>Product Name: <input type="text" class="form-control" placeholder="Product Name" name='Product_name'></h5>
+                        </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <h5>Product Quantity: <input type="number" class="form-control" placeholder="Quentity" name='Quentity' ></h5>
+                        </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <h5>Address: <input type="text" class="form-control" placeholder="Address" name="Address"  ></h5>
+                        </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <h5>Company Name:<input type="text" class="form-control" placeholder="Company Name" name="Company_Name" ></h5>
+                        </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <h5>Aspected Dalivary Date: <input type="date" class="form-control" placeholder="Aspected delivery date" name="Aspected_delivery_date"></h5>
+                        </div> <!-- form-group// -->
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-danger "> Conform Order </button>
+                        </div> <!-- form-group// -->    
+                    </form>
+            </div>
+            {% else %}
+                <h1>Invaid user</h1>
+            {% endif %}
+        </div>
+    </aside>
+        <main class="col-md-9">
+            {% if pre_order %}
+                <p class="text-danger">{{indicator}}</p>
+                <header class="bg-primary rounded px-2 py-2 text-dark">
+                        <b>{{ count }}</b> Orders Found
+                </header>
+                <!-- sect-heading -->
+                    {% for product in pre_order %}
+                        <div class="card" style="max-width: 1040px;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="{{product.product_image.url}}" class="img-fluid rounded-start" alt="..." style="width:500px;height:300px" >
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                        <h5 class="card-title">Customer Name: {{product.customer_name}}</h5>
+                                        <h6 class="card-title">Product Name: {{product.product_name}}</h6>
+                                        <h6 class="card-title">Product Price: {{product.price}}</h6>
+                                        <h6 class="card-title">Product Quantity: {{product.product_quentity}}</h6>
+                                        <h6 class="card-title">Address: {{product.address}}</h6>
+                                        <h6 class="card-title">Dalivary Date: {{product.aspected_date}}</h6>
+                                        <div>
+                                            {% if product.is_accept %}
+                                            <button class="btn btn-primary">Request Accept </button>
+                                            {% else %}
+                                            <button class="btn btn-danger">Request Pending </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    
+                    {% endfor %} 
+            {% elif all_order %}
+                <header class="bg-primary rounded px-2 py-2 text-dark">
+            
+                        <b>{{ count }}</b> Orders Found
+            
+                </header>
+                <!-- sect-heading -->
+                    {% for product in all_order %}
+                        <div class="card" style="max-width: 1040px;">
+                                <div class="row">
+                                    <div class="col-md-4">
+                                        <img src="{{product.product_image.url}}" class="img-fluid rounded-start" alt="..." style="width:500px;height:300px" >
+                                    </div>
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                        <h5 class="card-title">Customer Name: {{product.customer_name}}</h5>
+                                        <h6 class="card-title">Product Name: {{product.product_name}}</h6>
+                                        <h6 class="card-title">Product Price: {{product.price}}</h6>
+                                        <h6 class="card-title">Product Quantity: {{product.product_quentity}}</h6>
+                                        <h6 class="card-title">Address: {{product.address}}</h6>
+                                        <h6 class="card-title">Dalivary Date: {{product.aspected_date}}</h6>
+                                        <div>
+                                            {% if product.is_accept %}
+                                            <button class="btn btn-primary">Request Accept </button>
+                                            {% else %}
+                                            <button class="btn btn-danger">Request Pending </button>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                        </div>
+                    
+                    {% endfor %} 
+            {% endif %}
+
+        </main>
+
+</section> 
+  
+{% endblock %}

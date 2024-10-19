@@ -1,0 +1,139 @@
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h1 class="mb-4">My Profile</h1>
+
+    <!-- Display success or error messages -->
+    {% if messages %}
+        <div class="alert alert-info">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Profile Picture Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Profile Picture</h5>
+        </div>
+        <div class="card-body text-center">
+            {% if picture and user.is_authenticated %}
+                    <img src="{{ picture.url }}" alt="Profile Picture" class="img-thumbnail mb-3" style="width: 150px; height: 150px; object-fit: cover;">
+                    <form method="post" enctype="multipart/form-data" action="{% url 'upload_profile_pic' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <label for="profile_picture">Upload New Profile Picture</label>
+                            <br>
+                                <input  type="file" id="image" name="image">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Upload Picture</button>
+                    </form>
+            {% else %}
+                <h4>No picture available!, You are a invalid User.please register for batter performance </h4>
+            {% endif %}
+        </div>
+    </div>
+
+    <!-- Personal Information Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Personal Information</h5>
+        </div>
+        <div class="card-body">
+        {% if user.is_authenticated %}
+            <form method="post" action="">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="first_name">First Name</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user.first_name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Last Name</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user.last_name }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">User-Name</label>
+                    <input type="text" class="form-control" id="username" name="username" value="{{ user.username }}" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Phone Number</label>
+                    <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ user.phone_number}}" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" class="form-control" id="email" name="email" value="{{ user.email }}" required>
+                </div>
+                <a href="{% url 'update_personal_info' %}" type="submit" class="btn btn-primary">Update Information</a>
+            </form>
+        {% else %}
+            <h6>This Feature is only for Register User! please complete your Registration and get exciting feature.</h6>
+        {% endif %}
+        </div>
+    </div>
+
+    <!-- Change Password Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Change Password</h5>
+        </div>
+            <div class="card-body">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'forgotPassword' %}" type="submit" class="btn btn-primary">Change Password</a>
+                {% else %}
+                    <h6>This Change Password Feature is only for Register User! please complete your Registration and get exciting feature.</h6>
+                {% endif %}
+            </div>
+    </div>
+
+    <!-- Address Management Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Manage Addresses</h5>
+        </div>
+            
+        <div class="card-body">
+            {% if user.is_authenticated %}
+                    <a href="{% url 'manage_user_address' %}" type="submit" class="btn btn-primary">Add Address</a>
+            {% else %}
+                    <h6>This Manage Addresses  Feature is only for Register User! please complete your Registration and get exciting feature.</h6>
+            {% endif %}
+            
+        </div>
+    </div>
+
+    <!-- Order History Section -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Order History</h5>
+            {% if user.is_authenticated %}
+                <a href="{% url 'order-history' %}"class="btn btn-primary">See History</a>
+            {% else %}
+                <h6>This Order History  Feature is only for Register User! please complete your Registration and get exciting feature.</h6>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Wist List</h5>
+            {% if user.is_authenticated %}
+               <a href="{% url 'go_to_wish_list' %}"class="btn btn-primary">See Wish_List</a>
+            {% else %}
+            <h6>This Wist List  Feature is only for Register User! please complete your Registration and get exciting feature.</h6>
+            {% endif %}
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-header">
+               <h5 class="card-title">Delete Your Account</h5>
+        {% if user.is_authenticated %}
+            <a href="{% url 'go_to_wish_list' %} " onclick="return confirm('Are you sure you want to delete this Account?')" class="btn btn-primary">Delete Account</a>
+        {% else %}
+        <h6>This Delete Account  Feature is only for Register User! please complete your Registration and get exciting feature.</h6>
+        {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
