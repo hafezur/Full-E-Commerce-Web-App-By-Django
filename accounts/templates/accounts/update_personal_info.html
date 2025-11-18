@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+ <!-- Personal Information Section -->
+ <div class="container mt-5">
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title">Personal Information</h5>
+        </div>
+        {% if user.is_authenticated %}
+        <div class="card-body">
+                <form action="{% url 'update_personal_info' %}" method = 'POST'>
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <input type="first_name" class="form-control" placeholder="first_name" name="first_name" value="{{ user.first_name }}" >
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <input type="last_name" class="form-control" placeholder="last_name" name="last_name" value="{{ user.last_name }}" >
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <input type="username" class="form-control" placeholder="username" name="username" value="{{ user.username }}" >
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <input type="phone_number" class="form-control" placeholder="phone_number" name="phone_number" value="{{ user.phone_number}}" >
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <input type="email" class="form-control" placeholder="email" name="email" value="{{ user.email }}" >
+                    </div> <!-- form-group// -->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary "> Update </button>
+                    </div> <!-- form-group// -->    
+                </form>
+        </div>
+        {% else %}
+            <h1>Invaid user</h1>
+        {% endif %}
+    </div>
+</div>
+  
+{% endblock %}

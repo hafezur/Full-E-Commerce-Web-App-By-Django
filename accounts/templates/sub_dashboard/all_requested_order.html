@@ -1,0 +1,51 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<div class="container">
+        <header class="bg-primary rounded px-2 py-2 text-dark">
+                <b>{{ count }}</b> Orders Found
+        </header>
+        <main>
+            <table class="table table-dark table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Customer Name</th>
+                    <th scope="col">Picture</th>
+                    <th scope="col">Product Name</th>
+                    <th scope="col">Product Quentity</th>
+                    <th scope="col">Product Price</th>
+                    <th scope="col">Address</th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Acpected Delivery Date</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                {% for item in  all_order %}
+                  <tr>
+                    <th scope="row">{{item.id}}</th>
+                    <td>{{item.customer_name}}</td>
+                    <td><img src="{{item.product_image.url}}" style="width:60px; height:40px"></td>
+                    <td>{{item.product_name}}</td>
+                    <td>{{item.product_quentity}}</td>
+                    <td>{{item.price}}</td>
+                    <td>{{item.address}}</td>
+                    <td>{{item.company_name}}</td>
+                    <td>{{item.aspected_date}}</td>
+                    <td>
+                        {% if item.is_accept %}
+                           <button class="btn btn-primary" disabled>Order Accepted</button>
+                        {% else %}
+                            <a href="{% url 'delete_orders' item.id %}" class="btn btn-primary">Delete</a>
+                        {% endif%}
+                    </td>
+                  </tr>
+                {% endfor %}
+                </tbody>
+              </table>
+                  
+        </main>
+
+</div>
+{% endblock %}

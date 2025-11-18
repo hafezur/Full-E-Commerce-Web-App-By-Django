@@ -1,0 +1,24 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<div class="container mt-5" style="width: 900px;">
+    {% for product in top_products %}
+    <div class="card mb-3" style="max-width: 940px;">
+        <div class="row g-0">
+        <div class="col-md-4">
+            <img src="{{ product.images.url }}" class="img-fluid rounded-start" alt="...">
+        </div>
+        <div class="col-md-8">
+            <div class="card-body">
+            <h5 class="card-title">{{product.product_name}}</h5>
+            <p class="card-text">{{product.price}}</p>
+            <p class="card-text">{{product.description}}</p>
+            </div>
+        </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+
+{% endblock%}

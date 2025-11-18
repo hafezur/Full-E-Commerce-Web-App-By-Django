@@ -1,0 +1,37 @@
+{% extends 'base.html'%}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    {% if transaction_date %}
+        <div class="order-history">
+            <h1 class="text-danger">Transaction Report</h1>
+            <table class="table table-primary table-striped table-responsive">
+                <tr>
+                    <th>date:</th>
+                    <td>{{transaction_date}}</td>
+                </tr>
+                <tr>
+                    <th>Amount</th>
+                    <td>${{paid_amount}}</td>
+                </tr>
+                <tr>
+                    <th>amount paid through:</th>
+                    <td>{{paid_by}}</td>
+                </tr>
+                <tr>
+                    <th>risk title:</th>
+                    <td>{{risk_title}}</td>
+                </tr>
+                <tr>
+                    <th>status:</th>
+                    <td>{{status}}</td>
+                </tr>
+            </table>
+        <!-- Add more fields as necessary -->
+    {% else %}
+        <h1>No Transaction found.</h1>
+    {% endif %}
+</div>
+
+
+{% endblock%}

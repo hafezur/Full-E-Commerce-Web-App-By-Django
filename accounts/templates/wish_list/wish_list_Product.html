@@ -1,0 +1,71 @@
+
+{% extends "base.html" %}
+{% block content %}
+<div class="container mt-5">
+    <h1>Wish List Items</h1>
+    <div class="row">
+        {% if all_wish_list_product %}
+            {% for product in all_wish_list_product %}
+                <div class="col-md-4">
+                    <figure class="card card-product-grid">
+                      <div class="img-wrap">
+                    <!--<a href="{{ product.get_url }}"><img src="{{ product.images.url }}"/></a>-->
+                        <a href=""><img src="{{ product.wish_product_image.url }}"/></a>
+                      </div>
+                      <!-- img-wrap.// -->
+                      <figcaption class="info-wrap">
+                        <div class="fix-height">
+                      <!--<a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>-->
+                          <a href="" class="title">{{ product.wish_product_name }}</a>
+                          <a href="" class="title">{{ product.wish_product_description }}</a>
+                          <div class="price-wrap mt-2">
+                            <span class="price">$ {{ product.wish_product_price }}</span>
+                          </div>
+                          <!-- price-wrap.// -->
+                        </div>
+                    <!--<a href="{{ product.get_url }}" class="btn btn-block btn-primary">View Details</a>-->
+                        <a href="{% url 'add_cart' product.id %}" class="btn btn-block btn-primary">Go to Check Out</a>
+                        
+                      </figcaption>
+                    </figure>
+                  </div>
+                  <!-- col.// -->
+            {% endfor %}
+
+        {% elif specific_wish_products %}
+            {% for product in specific_wish_products %}
+            <div class="col-md-4">
+                <figure class="card card-product-grid">
+                <div class="img-wrap">
+                <!--<a href="{{ product.get_url }}"><img src="{{ product.images.url }}"/></a>-->
+                    <a href=""><img src="{{ product.wish_product_image.url }}"/></a>
+                </div>
+                <!-- img-wrap.// -->
+                <figcaption class="info-wrap">
+                    <div class="fix-height">
+                <!--<a href="{{ product.get_url }}" class="title">{{ product.product_name }}</a>-->
+                    <a href="" class="title">{{ product.wish_product_name }}</a>
+                    <a href="" class="title">{{ product.wish_product_description }}</a>
+                    <div class="price-wrap mt-2">
+                        <span class="price">$ {{ product.wish_product_price }}</span>
+                    </div>
+                    <!-- price-wrap.// -->
+                    </div>
+                <!--<a href="{{ product.get_url }}" class="btn btn-block btn-primary">View Details</a>-->
+                    <a href="{% url 'add_cart' product.id %}" class="btn btn-block btn-primary">Go To Check Out</a>
+                </figcaption>
+                </figure>
+            </div>
+            <!-- col.// -->
+            {% endfor %}
+        {% else %}
+        <h1>Your Wish List is Empty</h1>
+        {% endif %}
+    </div>
+    <a href="{% url 'get_product_for_wish_list' %}" class="btn  btn-primary">Add new wish itme</a>
+    <br>
+    <br>
+
+</div>
+
+{% endblock %}

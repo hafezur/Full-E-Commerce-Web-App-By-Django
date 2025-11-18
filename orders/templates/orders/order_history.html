@@ -1,0 +1,65 @@
+{% extends 'base.html'%}
+{% load static %}
+
+{% block content %}
+
+    <div class="container mt-5">
+        <h2>Your Orders</h2>
+        {% if request.user.is_authenticated %} 
+            {% if  ordered_products %}
+                <table class="table table-success table-striped table-responsive">
+                    <thead>
+                        <tr>
+                            <th>Order ID</th>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Product Name</th>
+                            <th>Address 1</th>
+                            <th>Address 2</th>
+                            <th>City</th>
+                            <th>State</th>
+                            <th>Country</th>
+                            <th>Order Note</th>
+                            <th>Date</th>
+                            <th>Total Amount</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for order in ordered_products %}
+                            <tr>
+                                <td>{{ order.order_number}}</td>
+                                <td>{{ order.first_name }}</td>
+                                <td>{{ order.last_name }}</td>
+                                <td>{{ order.email }}</td>
+                                <td>{{ order.phone }}</td>
+                                <td>{{ order.find_product_name }}</td>
+                                <td>{{ order.address_line1 }}</td>
+                                <td>{{ order.address_line2 }}</td>
+                                <td>{{ order.city }}</td>
+                                <td>{{ order.state }}</td>
+                                <td>{{ order.country }}</td>
+                                <td>{{ order.order_note }}</td>
+                                <td>{{ order.created_at|date:"F j, Y" }}</td>
+                                <td>${{ order.order_total }}</td>
+                                <td><a href="{% url 'order_delete' order.id %}"class="btn btn-info" >Delete</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <h1>You have no orders yet.</h>
+            {% endif %}
+        {% else %}
+        <h1>Invalid User</h>
+        {% endif %}
+
+<footer>
+    <p>&copy; {{ current_year }} Your Company. All rights reserved.</p>
+</footer>
+</div>
+    
+
+{% endblock%}
